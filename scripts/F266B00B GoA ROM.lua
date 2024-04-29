@@ -350,7 +350,7 @@ if Place == 0x000F then
 end
 --Visits Unlock
 if true then
-	if ReadByte(Save+0x364A) > 0 then --Picture
+	if ReadByte(Save+0x3642) > 0 then --Sketches
 		BitOr(Save+0x1CD0,0x1) --stt init or whatever
 	end
 	if ReadByte(Save+0x3649) > 0 then --Ice Cream
