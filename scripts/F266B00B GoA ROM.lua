@@ -3,11 +3,10 @@
 --Todo: Maybe item-based progress flags
 
 LUAGUI_NAME = 'GoA ROM Randomizer Build'
-LUAGUI_AUTH = 'SonicShadowSilver2 (Ported by Num). 1 Hour edits done by DA and JaredWeakStrike'
 LUAGUI_DESC = 'A GoA build for use with the Randomizer. Requires ROM patching.'
 
 function _OnInit()
-print('GoA v1.53.6 | 1HR ModPack V1')
+print('GoA v1.53.6 1HR ver.')
 GoAOffset = 0x7C
 if (GAME_ID == 0xF266B00B or GAME_ID == 0xFAF99301) and ENGINE_TYPE == "ENGINE" then --PCSX2
 	if ENGINE_VERSION < 3.0 then
@@ -328,12 +327,6 @@ if Place == 0x000F then
 		WarpDoor = 0x1A
 	elseif Door == 0x0B then --Pride Lands
 		WarpDoor = 0x1B
-	elseif Door == 0x01 then --Twilight Town
-		if ReadByte(Save+0x1CFF) == 8 then --Twilight Town
-			WarpDoor = 0x1C
-		elseif ReadByte(Save+0x1CFF) == 13 then --Simulated Twilight Town
-			WarpDoor = 0x21
-		end
 	elseif Door == 0x02 then --Hollow Bastion
 		WarpDoor = 0x1D
 	elseif Door == 0x08 then --Port Royal
@@ -1480,68 +1473,6 @@ end
 end
 
 function TT()
---Data Axel -> Twilight Town
-if Place == 0x1A04 then
-	local PostSave = ReadByte(Save+0x1CFD)
-	local Progress = ReadByte(Save+0x1D0D)
-	local WarpRoom
-	if PostSave == 0 then
-		if Progress == 0 then --1st Visit
-			WarpRoom = 0x75
-		elseif Progress == 1 then --Before Station Plaza Nobodies
-			WarpRoom = 0x02
-		elseif Progress == 2 then --After Station Plaza Nobodies
-			WarpRoom = 0x09
-		elseif Progress == 3 then --[After The Tower Heartless, After Moon Chamber Heartless]
-			WarpRoom = 0x1A
-		elseif Progress == 4 then --Before Talking to Yen Sid
-			WarpRoom = 0x1B
-		elseif Progress == 5 then --After Talking to Yen Sid
-			WarpRoom = 0x1B
-		elseif Progress == 6 then --Post 1st Visit
-			WarpRoom = 0x02
-		elseif Progress == 7 then --2nd Visit
-			WriteShort(BAR(ARD,0x0A,GoAOffset+0x0EE),0x12,OnPC) --Start in TWtNW
-			WarpRoom = 0x40
-		elseif Progress == 8 then --Before Sandlot Nobodies II
-			WarpRoom = 0x02
-		elseif Progress == 9 then --After Sandlot Nobodies II
-			WarpRoom = 0x02
-		elseif Progress == 10 then --Post 2nd Visit
-			WarpRoom = 0x02
-		elseif Progress == 11 then --3rd Visit
-			WarpRoom = 0x77
-		elseif Progress == 12 then --[Before The Old Mansion Nobodies, After The Old Mansion Nobodies]
-			WarpRoom = 0x09
-		elseif Progress == 13 then --After Entering the Mansion Foyer
-			WarpRoom = 0x12
-		elseif Progress == 14 then --[After Entering the Computer Room, Before Betwixt and Between Nobodies]
-			WarpRoom = 0x15
-		elseif Progress == 15 then --Post 3rd Visit
-			WarpRoom = 0x02
-		end
-	elseif PostSave == 1 then --The Usual Spot
-		WarpRoom = 0x02
-	elseif PostSave == 2 then --Central Station
-		WarpRoom = 0x09
-	elseif PostSave == 3 then --Sunset Station
-		WarpRoom = 0x0B
-	elseif PostSave == 4 then --Mansion: The White Room
-		WarpRoom = 0x12
-	elseif PostSave == 5 then --Mansion: Computer Room
-		WarpRoom = 0x15
-	elseif PostSave == 6 then --Tower: Entryway
-		WarpRoom = 0x1A
-	elseif PostSave == 7 then --Tower: Sorcerer's Loft
-		WarpRoom = 0x1B
-	end
-	if WarpRoom <= 50 then
-		WriteShort(BAR(ARD,0x0A,GoAOffset+0x0F0),WarpRoom,OnPC)
-	else
-		WriteShort(BAR(ARD,0x0A,GoAOffset+0x0EC),0x02,OnPC)
-		WriteShort(BAR(ARD,0x0A,GoAOffset+0x0F4),WarpRoom,OnPC)
-	end
-end
 --World Progress
 if Place == 0x0202 and Events(Null,Null,0x01) then --A Message from Pence and Olette
 	WriteByte(Save+0x1D0D,1)
@@ -2133,59 +2064,6 @@ end--]]
 end
 
 function STT()
---Data Roxas -> Simulated Twilight Town
-if Place == 0x1A04 then
-	local PostSave = ReadByte(Save+0x1CFE)
-	local Progress = ReadByte(Save+0x1D0E)
-	local WarpRoom
-	if PostSave == 0 then
-		if Progress == 0 then --1st Visit
-			WarpRoom = 0x34
-		elseif Progress == 1 then --Before Munny Collection
-			WarpRoom = 0x02
-		elseif Progress == 2 then --Munny Collection
-			WarpRoom = 0x02
-		elseif Progress == 3 then --Before Sandlot Dusk
-			WarpRoom = 0x02
-		elseif Progress == 4 then --Before Twilight Thorn
-			WarpRoom = 0x20
-		elseif Progress == 5 then --[Start of Day 4, Before Setzer]
-			WarpRoom = 0x05
-		elseif Progress == 6 then --Start of Day 5
-			WarpRoom = 0x02
-		elseif Progress == 7 then --Before Vivi's Wonder
-			WarpRoom = 0x0B
-		elseif Progress == 8 then --[After Vivi's Wonder, After Seven Wonders]
-			WarpRoom = 0x0B
-		elseif Progress == 9 then --Before Namine's Wonder
-			WarpRoom = 0x02
-		elseif Progress == 10 then --[Before Back Street Nobodies, Before Entering the Mansion]
-			WarpRoom = 0x02
-		elseif Progress == 11 then --[Before Entering the Library, Before Entering Computer Room]
-			WarpRoom = 0x12
-		elseif Progress == 12 then --Before Axel II
-			WarpRoom = 0x15
-		elseif Progress == 13 then --After Axel II
-			WarpRoom = 0x15
-		end
-	elseif PostSave == 1 then --The Usual Spot
-		WarpRoom = 0x02
-	elseif PostSave == 2 then --Central Station
-		WarpRoom = 0x09
-	elseif PostSave == 3 then --Sunset Station
-		WarpRoom = 0x0B
-	elseif PostSave == 4 then --Mansion: The White Room
-		WarpRoom = 0x12
-	elseif PostSave == 5 then --Mansion: Computer Room
-		WarpRoom = 0x15
-	end
-	if WarpRoom <= 50 then
-		WriteShort(BAR(ARD,0x0A,GoAOffset+0x190),WarpRoom,OnPC)
-	else
-		WriteShort(BAR(ARD,0x0A,GoAOffset+0x18C),0x02,OnPC)
-		WriteShort(BAR(ARD,0x0A,GoAOffset+0x194),WarpRoom,OnPC)
-	end
-end
 --World Progress
 if Place == 0x0102 and Events(0x39,0x39,0x39) then --Just Another Morning
 	WriteByte(Save+0x1D0E,1)
