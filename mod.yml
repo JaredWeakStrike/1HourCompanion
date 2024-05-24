@@ -7,7 +7,7 @@ assets:
 - name: scripts/F266B00B GoA ROM.lua
   method: copy
   source:
-  - name: F266B00B GoA ROM.lua
+  - name: scripts/F266B00B GoA ROM.lua
 - name: scripts/OCPeteNoTimer.lua
   method: copy
   source:
