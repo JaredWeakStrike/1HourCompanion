@@ -85,6 +85,14 @@ elseif GAME_ID == 0x431219CC and ENGINE_TYPE == 'BACKEND' then --PC
 	NxtGauge = 0x48
 	Menu1    = 0x2A0E7D0 - 0x56450E
 	NextMenu = 0x8
+	offset = 0x56454E
+	drive1 = 0x3F059E - offset
+	drive2 = 0x3FF734 - offset
+	drive3 = 0x3E107C - offset
+	drive4 = 0x3FF788 - offset
+	drive5 = 0x3FE3C4 - offset
+	drive6 = 0x3C07CE - offset
+	drive7 = 0x3F05BA - offset
 end
 SeedCleared = false
 --[[Slot2  = Slot1 - NextSlot
