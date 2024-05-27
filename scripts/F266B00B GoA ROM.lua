@@ -95,10 +95,10 @@ elseif GAME_ID == 0x431219CC and ENGINE_TYPE == 'BACKEND' then --PC
 	drive7 = 0x3F05BA - offset
 end
 SeedCleared = false
---[[Slot2  = Slot1 - NextSlot
+Slot2  = Slot1 - NextSlot
 Slot3  = Slot2 - NextSlot
 Slot4  = Slot3 - NextSlot
-Slot5  = Slot4 - NextSlot
+--[[Slot5  = Slot4 - NextSlot
 Slot6  = Slot5 - NextSlot
 Slot7  = Slot6 - NextSlot
 Slot8  = Slot7 - NextSlot
@@ -1174,6 +1174,13 @@ if ReadByte(Save+0x1E5E) > 0 then
 	elseif PrevPlace == 0x080E then --Santa's House
 		WriteByte(Save+0x1E5E,3)
 	end
+end
+--Faster Faster Oogie
+if Place == 0x090E and Events(0x37,0x37,0x37) then
+	print(ReadInt(Slot2+8))
+	WriteInt(Slot2+8,0)
+	WriteInt(Slot3+8,0)
+	WriteInt(Slot4+8,0)
 end
 end
 

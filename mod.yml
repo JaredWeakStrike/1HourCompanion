@@ -169,6 +169,12 @@ assets:
   source:
   - name: obj/F_CA050.mset
 
+#Good Oogie
+- name: obj/B_NM000.mdlx
+  method: copy
+  source:
+  - name: obj/B_NM000.mdlx
+
 # cor orb in pooh
 - name: ard/po00.ard #The Hundred Acre Wood (GoA Warp)
   multi:
