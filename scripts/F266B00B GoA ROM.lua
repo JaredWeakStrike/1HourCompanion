@@ -298,15 +298,9 @@ function GoA()
 --Clear Conditions
 if not SeedCleared then
 	local ObjectiveCount = ReadShort(BAR(Sys3,0x6,0x4F4),OnPC)
-	if ObjectiveCount == 0 then
-		if ReadByte(Save+0x36B2) > 0 and ReadByte(Save+0x36B3) > 0 and ReadByte(Save+0x36B4) > 0 then --All Proofs Obtained
-			SeedCleared = true
-		end
-	else
 		if ReadByte(Save+0x363D) >= ObjectiveCount then --Requisite Objective Count Achieved
 			SeedCleared = true
 		end
-	end
 end
 --Garden of Assemblage Rearrangement
 if Place == 0x1A04 then
@@ -360,9 +354,9 @@ if true then
 	--Namine's Sketches
 	VisitLock(Save+0x3642, 1, Save+0x1CD0, 0x01) --TT_START_1
 	--Ice Cream
-	VisitLock(Save+0x3649, 1, Save+0x1CD2, 0x10) --TT_INIT
-	VisitLock(Save+0x3649, 2, Save+0x1C92, 0x08) --ZZ_TT_CHECK_1_GOA
-	VisitLock(Save+0x3649, 3, Save+0x1C92, 0x10) --ZZ_TT_CHECK_2_GOA
+	VisitLock(Save+0x3649, 3, Save+0x1CD2, 0x10) --TT_INIT
+	--VisitLock(Save+0x3649, 3, Save+0x1C92, 0x08) --ZZ_TT_CHECK_1_GOA
+	--VisitLock(Save+0x3649, 3, Save+0x1C92, 0x10) --ZZ_TT_CHECK_2_GOA
 	--Membership Card
 	VisitLock(Save+0x3643, 1, Save+0x1D1B, 0x08) --HB_INIT
 	VisitLock(Save+0x3643, 2, Save+0x1C92, 0x20) --ZZ_HB_CHECK_1_GOA
