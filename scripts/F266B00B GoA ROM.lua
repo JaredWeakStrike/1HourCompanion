@@ -298,9 +298,14 @@ function GoA()
 --Clear Conditions
 if not SeedCleared then
 	local ObjectiveCount = ReadShort(BAR(Sys3,0x6,0x4F4),OnPC)
+	if SeedCleared==false then
 		if ReadByte(Save+0x363D) >= ObjectiveCount then --Requisite Objective Count Achieved
 			SeedCleared = true
 		end
+		if eadByte(Save+0x36B2) > 0 and ReadByte(Save+0x36B3) > 0 and ReadByte(Save+0x36B4) > 0 then
+			SeedCleared = true
+		end
+	end
 end
 --Garden of Assemblage Rearrangement
 if Place == 0x1A04 then
