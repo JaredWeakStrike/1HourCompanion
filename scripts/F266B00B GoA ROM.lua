@@ -295,22 +295,11 @@ end
 end
 
 function GoA()
---Clear Conditions
-if not SeedCleared then
-	local ObjectiveCount = ReadShort(BAR(Sys3,0x6,0x4F4),OnPC)
-	if SeedCleared==false then
-		if ReadByte(Save+0x363D) >= ObjectiveCount then --Requisite Objective Count Achieved
-			SeedCleared = true
-		end
-		if ReadByte(Save+0x36B2) > 0 and ReadByte(Save+0x36B3) > 0 and ReadByte(Save+0x36B4) > 0 then
-			SeedCleared = true
-		end
-	end
-end
 --Garden of Assemblage Rearrangement
 if Place == 0x1A04 then
 	--Open Promise Charm Path
-	if SeedCleared and ReadByte(Save+0x3694) > 0 then --Seed Cleared & Promise Charm
+	local ObjectiveCount = ReadShort(BAR(Sys3,0x6,0x4F4),OnPC)
+	if ReadByte(Save+0x363D) >= ObjectiveCount and ReadByte(Save+0x3694) > 0 then --Seed Cleared & Promise Charm
 		WriteShort(BAR(ARD,0x06,0x05C),0x77A,OnPC) --Text
 	end
 	--Demyx's Portal Text
@@ -363,39 +352,39 @@ if true then
 	--VisitLock(Save+0x3649, 3, Save+0x1C92, 0x08) --ZZ_TT_CHECK_1_GOA
 	--VisitLock(Save+0x3649, 3, Save+0x1C92, 0x10) --ZZ_TT_CHECK_2_GOA
 	--Membership Card
-	VisitLock(Save+0x3643, 1, Save+0x1D1B, 0x08) --HB_INIT
-	VisitLock(Save+0x3643, 2, Save+0x1C92, 0x20) --ZZ_HB_CHECK_1_GOA
-	VisitLock(Save+0x3643, 0, Save+0x1C92, 0x40) --ZZ_HB_CHECK_2_GOA
-	--Beast's Claw
-	VisitLock(Save+0x35B3, 1, Save+0x1D31, 0x08) --BB_INIT
-	VisitLock(Save+0x35B3, 2, Save+0x1C92, 0x80) --ZZ_BB_CHECK_GOA
-	--Battlefields of War
-	VisitLock(Save+0x35AE, 1, Save+0x1D53, 0x20) --HE_INIT
-	VisitLock(Save+0x35AE, 2, Save+0x1C93, 0x01) --ZZ_HE_CHECK_GOA
-	--Scimitar
-	VisitLock(Save+0x35C0, 1, Save+0x1D73, 0x02) --AL_INIT
-	VisitLock(Save+0x35C0, 2, Save+0x1C93, 0x02) --ZZ_AL_CHECK_GOA
-	--Sword of the Ancestors
-	VisitLock(Save+0x35AF, 1, Save+0x1D91, 0x01) --MU_INIT
-	VisitLock(Save+0x35AF, 2, Save+0x1C93, 0x04) --ZZ_MU_CHECK_GOA
-	--Proud Fang
-	VisitLock(Save+0x35B5, 1, Save+0x1DD5, 0x04) --LK_INIT
-	VisitLock(Save+0x35B5, 2, Save+0x1C94, 0x01) --ZZ_LK_CHECK_GOA
-	--Royal Summons (DUMMY 13)
-	VisitLock(Save+0x365D, 1, Save+0x1E12, 0x08) --DC_INIT
-	VisitLock(Save+0x365D, 2, Save+0x1C94, 0x20) --ZZ_DC_CHECK_GOA
-	--Bone Fist
-	VisitLock(Save+0x35B4, 1, Save+0x1E56, 0x08) --NM_INIT
-	VisitLock(Save+0x35B4, 2, Save+0x1C94, 0x40) --ZZ_NM_CHECK_GOA
-	--Skill and Crossbones
-	VisitLock(Save+0x35B6, 1, Save+0x1E99, 0x04) --CA_INIT
-	VisitLock(Save+0x35B6, 2, Save+0x1C94, 0x80) --ZZ_CA_CHECK_GOA
-	--Identity Disk
-	VisitLock(Save+0x35C2, 1, Save+0x1EB5, 0x20) --TR_INIT
-	VisitLock(Save+0x35C2, 2, Save+0x1C95, 0x01) --ZZ_TR_CHECK_GOA
-	--Way to the Dawn
-	VisitLock(Save+0x3642, 1, Save+0x1C95, 0x02) --ZZ_EH_CHECK_1_GOA
-	VisitLock(Save+0x3642, 2, Save+0x1C95, 0x04) --ZZ_EH_CHECK_2_GOA
+	--VisitLock(Save+0x3643, 1, Save+0x1D1B, 0x08) --HB_INIT
+	--VisitLock(Save+0x3643, 2, Save+0x1C92, 0x20) --ZZ_HB_CHECK_1_GOA
+	--VisitLock(Save+0x3643, 0, Save+0x1C92, 0x40) --ZZ_HB_CHECK_2_GOA
+	----Beast's Claw
+	--VisitLock(Save+0x35B3, 1, Save+0x1D31, 0x08) --BB_INIT
+	--VisitLock(Save+0x35B3, 2, Save+0x1C92, 0x80) --ZZ_BB_CHECK_GOA
+	----Battlefields of War
+	--VisitLock(Save+0x35AE, 1, Save+0x1D53, 0x20) --HE_INIT
+	--VisitLock(Save+0x35AE, 2, Save+0x1C93, 0x01) --ZZ_HE_CHECK_GOA
+	----Scimitar
+	--VisitLock(Save+0x35C0, 1, Save+0x1D73, 0x02) --AL_INIT
+	--VisitLock(Save+0x35C0, 2, Save+0x1C93, 0x02) --ZZ_AL_CHECK_GOA
+	----Sword of the Ancestors
+	--VisitLock(Save+0x35AF, 1, Save+0x1D91, 0x01) --MU_INIT
+	--VisitLock(Save+0x35AF, 2, Save+0x1C93, 0x04) --ZZ_MU_CHECK_GOA
+	----Proud Fang
+	--VisitLock(Save+0x35B5, 1, Save+0x1DD5, 0x04) --LK_INIT
+	--VisitLock(Save+0x35B5, 2, Save+0x1C94, 0x01) --ZZ_LK_CHECK_GOA
+	----Royal Summons (DUMMY 13)
+	--VisitLock(Save+0x365D, 1, Save+0x1E12, 0x08) --DC_INIT
+	--VisitLock(Save+0x365D, 2, Save+0x1C94, 0x20) --ZZ_DC_CHECK_GOA
+	----Bone Fist
+	--VisitLock(Save+0x35B4, 1, Save+0x1E56, 0x08) --NM_INIT
+	--VisitLock(Save+0x35B4, 2, Save+0x1C94, 0x40) --ZZ_NM_CHECK_GOA
+	----Skill and Crossbones
+	--VisitLock(Save+0x35B6, 1, Save+0x1E99, 0x04) --CA_INIT
+	--VisitLock(Save+0x35B6, 2, Save+0x1C94, 0x80) --ZZ_CA_CHECK_GOA
+	----Identity Disk
+	--VisitLock(Save+0x35C2, 1, Save+0x1EB5, 0x20) --TR_INIT
+	--VisitLock(Save+0x35C2, 2, Save+0x1C95, 0x01) --ZZ_TR_CHECK_GOA
+	----Way to the Dawn
+	--VisitLock(Save+0x3642, 1, Save+0x1C95, 0x02) --ZZ_EH_CHECK_1_GOA
+	--VisitLock(Save+0x3642, 2, Save+0x1C95, 0x04) --ZZ_EH_CHECK_2_GOA
 else --Remove the item requirements
 	--Namine's Sketches
 	VisitLock(Save+0x3642, 0, Save+0x1CD0, 0x01) --TT_START_1
@@ -924,7 +913,7 @@ if ReadByte(Save+0x1EDE) > 0 then
 	end
 end
 --Final Door Requirements
-if ReadShort(Save+0x1B7C) == 0x04 and SeedCleared then
+if ReadShort(Save+0x1B7C) == 0x04 and ReadByte(Save+0x36B2) > 0 and ReadByte(Save+0x36B3) > 0 and ReadByte(Save+0x36B4) > 0 then
 	WriteShort(Save+0x1B7C, 0x0D) --The Altar of Naught MAP (Door RC Available)
 end
 
