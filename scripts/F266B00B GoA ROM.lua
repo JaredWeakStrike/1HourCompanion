@@ -298,8 +298,7 @@ function GoA()
 --Garden of Assemblage Rearrangement
 if Place == 0x1A04 then
 	--Open Promise Charm Path
-	local ObjectiveCount = ReadShort(BAR(Sys3,0x6,0x4F4),OnPC)
-	if ReadByte(Save+0x363D) >= ObjectiveCount and ReadByte(Save+0x3694) > 0 then --Seed Cleared & Promise Charm
+	if ReadByte(Save+0x363D) >= 5 and ReadByte(Save+0x3694) > 0 then --Seed Cleared & Promise Charm
 		WriteShort(BAR(ARD,0x06,0x05C),0x77A,OnPC) --Text
 	end
 	--Demyx's Portal Text
@@ -352,7 +351,6 @@ if true then
 	--VisitLock(Save+0x3649, 3, Save+0x1C92, 0x08) --ZZ_TT_CHECK_1_GOA
 	--VisitLock(Save+0x3649, 3, Save+0x1C92, 0x10) --ZZ_TT_CHECK_2_GOA
 	--Membership Card
-	--VisitLock(Save+0x3643, 1, Save+0x1D1B, 0x08) --HB_INIT
 	VisitLock(Save+0x3643, 1, Save+0x1D1B, 0x08) --HB_INIT
 	VisitLock(Save+0x3643, 2, Save+0x1C92, 0x20) --ZZ_HB_CHECK_1_GOA
 	VisitLock(Save+0x3643, 0, Save+0x1C92, 0x40) --ZZ_HB_CHECK_2_GOA
