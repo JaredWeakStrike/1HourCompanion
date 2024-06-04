@@ -2228,7 +2228,7 @@ function _OnFrame()
         WriteByte(Save+0x260A,ReadByte(Save+0x260B))
         WriteByte(Save+0x271C,ReadByte(Save+0x271D))
         WriteByte(Save+0x271E,ReadByte(Save+0x271F))
-        if ReadByte(VisitUnlocks+0xB3) == 0x01 and ReadByte(Save+0x3607) == 0x00 then --Normal
+        if ReadByte(VisitUnlocks+0xB3) == 0x01 then --Normal
             BitOr(Save+0x1CE5, 0x30)
             WriteByte(Save+0x1D0D, 0x06)
         elseif ReadByte(VisitUnlocks+0xB3) >= 0x02 then
@@ -2309,7 +2309,7 @@ function _OnFrame()
         WriteShort(Save+0x20F4, 0x0000)
         WriteInt(Save+0x2120, 0x9F619F4E)
     end
-    if ReadShort(Now+0x00) == 0x0802 and ReadShort(CutLen+0x00) == 0x1086 and ReadByte(Save+0x3607) == 0x00 then
+    if ReadShort(Now+0x00) == 0x0802 and ReadShort(CutLen+0x00) == 0x1086 then
 		WriteByte(CutSkp+0x00, 0x01) --End of Twilight Town 2 3rd Cutscene (Normal)
         if ReadByte(VisitUnlocks+0xB3) <= 0x02 then
             WriteByte(Save+0x1D0D, 0x0A)
@@ -2520,7 +2520,7 @@ function _OnFrame()
             WriteByte(Save+0x0D, 0x08)
         end
     end
-    if ReadShort(Now+0x00) == 0x0804 and ReadShort(CutLen+0x00) == 0x1DDA and ReadByte(Save+0x3607) == 0x00 then
+    if ReadShort(Now+0x00) == 0x0804 and ReadShort(CutLen+0x00) == 0x1DDA then
 		WriteByte(CutSkp+0x00, 0x01) --Post Bailey Nobodies Cutscene (Normal)
         if ReadByte(VisitUnlocks+0xAD) == 0x01 then
             WriteByte(Save+0x1D2F, 0x02)
