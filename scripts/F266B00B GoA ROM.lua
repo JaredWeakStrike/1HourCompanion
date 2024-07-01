@@ -315,9 +315,6 @@ PR()
 DC()
 SP()
 STT()
-AW()
-At()
-Data()
 end
 
 function NewGame()
