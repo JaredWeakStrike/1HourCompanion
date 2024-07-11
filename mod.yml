@@ -8,7 +8,7 @@ assets:
   method: copy
   source:
   - name: scripts/F266B00B GoA ROM.lua
-- name: scripts/OCPeteNoTimer.lua
+- name: scripts/OCPete.lua
   method: copy
   source:
   - name: scripts/OCPete.lua
@@ -16,10 +16,14 @@ assets:
   method: copy
   source:
   - name: scripts/2fmRemoveSwarm.lua
-- name: scripts/CutsceneSkipper.lua
+#- name: scripts/CutsceneSkipper.lua
+#  method: copy
+#  source:
+#  - name: scripts/CutsceneSkipper.lua
+- name: scripts/DriveLogic.lua
   method: copy
   source:
-  - name: scripts/CutsceneSkipper.lua
+  - name: scripts/DriveLogic.lua
 #Better Boss Scaling
 - name: 00battle.bin
   method: binarc
