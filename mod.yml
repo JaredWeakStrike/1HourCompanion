@@ -16,10 +16,10 @@ assets:
   method: copy
   source:
   - name: scripts/2fmRemoveSwarm.lua
-#- name: scripts/CutsceneSkipper.lua
-#  method: copy
-#  source:
-#  - name: scripts/CutsceneSkipper.lua
+- name: scripts/CutsceneSkipper.lua
+  method: copy
+  source:
+  - name: scripts/CutsceneSkipper.lua
 - name: scripts/DriveLogic.lua
   method: copy
   source:
