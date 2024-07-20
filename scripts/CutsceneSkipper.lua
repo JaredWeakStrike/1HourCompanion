@@ -7,45 +7,57 @@ end
 
 function GetVersion() --Define anchor addresses
     if GAME_ID == 0x431219CC and ENGINE_TYPE == 'BACKEND' then --PC
-      if ReadString(0x09A92F0,4) == 'KH2J' then --EGS
-              GameVersion = 2
-              print('Epic Version Detected - CutsceneSkipper')
-              Now = 0x0716DF8 --Current Location
-              Save = 0x09A92F0 --Save File
-              CutNow = 0x0B649D8 --Cutscene Timer
-              CutLen = 0x0B649F4 --Cutscene Length
-              CutSkp = 0x0B649DC --Cutscene Skip
-              MaxDriveGauge = 0x2A2318A
-              HBBGM = 0x2A693FC
-              ARDEvent = 0x29C501E
-              canExecute = true
-          elseif ReadString(0x09A9830,4) == 'KH2J' then --Steam Global
-              GameVersion = 3
-              print('Steam Global Version Detected - CutsceneSkipper')
-              Now = 0x0717008 --Current Location
-              Save = 0x09A9830 --Save File
-              CutNow = 0x0B64F18 --Cutscene Timer
-              CutLen = 0x0B64F34 --Cutscene Length
-              CutSkp = 0x0B64F1C --Cutscene Skip
-              MaxDriveGauge = 0x2A236CA
-              HBBGM = 0x2A6993C
-              ARDEvent = 0x29C571E
-              canExecute = true
-          elseif ReadString(0x09A8830,4) == 'KH2J' then --Steam JP (Needs Testing)
-              GameVersion = 4
-              print('Steam JP Version Detected - CutsceneSkipper')
-              Now = 0x0716008 --Current Location
-              Save = 0x09A8830 --Save File
-              CutNow = 0x0B63F18 --Cutscene Timer
-              CutLen = 0x0B63F34 --Cutscene Length
-              CutSkp = 0x0B63F1C --Cutscene Skip
-              MaxDriveGauge = 0x2A226CA
-              HBBGM = 0x2A6893C
-              ARDEvent = 0x29C471E
-              canExecute = true
-          end
-      end
-  end
+        if ReadString(0x09A70B0 - 0x56454E,4) == 'KH2J' then --EGS 1.0.0.8
+            GameVersion = 1
+            print('Epic Version 1.0.0.8_WW Detected - CutsceneSkipper')
+            Now = 0x0714DB8 - 0x56454E --Current Location
+            Save = 0x09A70B0 - 0x56454E --Save File
+            CutNow = 0x0B62798 - 0x56454E --Cutscene Timer
+            CutLen = 0x0B627B4 - 0x56454E --Cutscene Length
+            CutSkp = 0x0B6279C - 0x56454E --Cutscene Skip
+            MaxDriveGauge = 0x2A20E4A - 0x56454E
+            HBBGM = 0x2A670BC - 0x56454E
+            ARDEvent = 0x29C2CDE - 0x56454E
+            canExecute = true
+        elseif ReadString(0x09A92F0,4) == 'KH2J' then --EGS 1.0.0.9
+            GameVersion = 2
+            print('Epic Version 1.0.0.9_WW Detected - CutsceneSkipper')
+            Now = 0x0716DF8 --Current Location
+            Save = 0x09A92F0 --Save File
+            CutNow = 0x0B649D8 --Cutscene Timer
+            CutLen = 0x0B649F4 --Cutscene Length
+            CutSkp = 0x0B649DC --Cutscene Skip
+            MaxDriveGauge = 0x2A2318A
+            HBBGM = 0x2A693FC
+            ARDEvent = 0x29C501E
+            canExecute = true
+        elseif ReadString(0x09A9830,4) == 'KH2J' then --Steam Global
+            GameVersion = 3
+            print('Steam Global Version Detected - CutsceneSkipper')
+            Now = 0x0717008 --Current Location
+            Save = 0x09A9830 --Save File
+            CutNow = 0x0B64F18 --Cutscene Timer
+            CutLen = 0x0B64F34 --Cutscene Length
+            CutSkp = 0x0B64F1C --Cutscene Skip
+            MaxDriveGauge = 0x2A236CA
+            HBBGM = 0x2A6993C
+            ARDEvent = 0x29C571E
+            canExecute = true
+        elseif ReadString(0x09A8830,4) == 'KH2J' then --Steam JP
+            GameVersion = 4
+            print('Steam JP Version Detected - CutsceneSkipper')
+            Now = 0x0716008 --Current Location
+            Save = 0x09A8830 --Save File
+            CutNow = 0x0B63F18 --Cutscene Timer
+            CutLen = 0x0B63F34 --Cutscene Length
+            CutSkp = 0x0B63F1C --Cutscene Skip
+            MaxDriveGauge = 0x2A226CA
+            HBBGM = 0x2A6893C
+            ARDEvent = 0x29C471E
+            canExecute = true
+        end
+    end
+end
 
 function BitOr(Address,Bit,Abs)
 WriteByte(Address,ReadByte(Address)|Bit,Abs and OnPC)
@@ -424,7 +436,7 @@ function _OnFrame()
                 WriteByte(CutSkp, 0x01)
             end
         end
-        if ReadShort(CutLen) == 0x0A62 then --Post Riku Cutscene
+        if ReadShort(CutLen) == 0x0A62 then --Post Riku Cutscene 1
             WriteByte(CutSkp, 0x01)
             WriteByte(Save+0xC14, 0x15)
             WriteInt(Save+0xC36, 0x0000000B)
@@ -434,17 +446,20 @@ function _OnFrame()
             BitOr(Save+0x1D98, 0x04)
             WriteByte(Save+0x1D9F, 0x06)
         end
-        if ReadByte(ARDEvent+0x3466) == 0x06 then --Normal
-            WriteShort(ARDEvent+0x0000, 0x01)
+        if ReadByte(ARDEvent+0x3466) == 0x06 then --Post Riku Cutscene 2 (Normal)
             WriteByte(ARDEvent+0x3466, 0x0C)
             WriteByte(ARDEvent+0x3468, 0x02)
         end
-        if ReadByte(ARDEvent+0x34E6) == 0x06 then --Boss/Enemy
+        if ReadShort(ARDEvent+0x0000) == 0xFFFF then
             WriteShort(ARDEvent+0x0000, 0x01)
-            WriteByte(ARDEvent+0x34E6, 0x0C)
-            WriteByte(ARDEvent+0x34E8, 0x02)
         end
 	end
+    if ReadShort(Now+0x00) == 0x0608 and ReadInt(Now+0x06) == 0x0000000B then --Post Riku Cutscene 2 (Boss/Enemy)
+        if ReadByte(Now+0x38) == 0x4C then
+            WriteArray(Now+0x00, {0x08, 0x0C, 0x02, 0x00, 0x00, 0x00, 0x00, 0x00, 0x13})
+            WriteShort(Save+0x0D, 0x020C)
+        end
+    end
     if ReadShort(Now+0x00) == 0x0608 then  --Ridge Cutscenes
         if ReadShort(CutLen) == 0x0701 or ReadShort(CutLen) == 0x01F7 then
             WriteByte(CutSkp, 0x01)
@@ -823,7 +838,7 @@ function _OnFrame()
         if ReadShort(CutLen) == 0x07D2 or ReadShort(CutLen) == 0x0D79 then
             WriteByte(CutSkp, 0x01)
         end
-        if ReadShort(CutLen) == 0x022C then --Post Prison Keeper Cutscene
+        if ReadShort(CutLen) == 0x022C then --Post Prison Keeper Cutscene 1
             WriteByte(CutSkp, 0x01)
             WriteInt(Save+0x151A, 0x00030002)
             WriteInt(Save+0x151E, 0x00160000)
@@ -837,15 +852,13 @@ function _OnFrame()
         end
         if ReadByte(ARDEvent+0x26F2A) == 0x3A then --Normal
             WriteByte(ARDEvent+0x26F22, 0x01)
-            WriteInt(ARDEvent+0x26F26, 0x00340002)
-            WriteInt(ARDEvent+0x26F2A, 0x00010000)
-        end
-        if ReadByte(ARDEvent+0x26ADE) == 0x3A then --Boss/Enemy
-            WriteByte(ARDEvent+0x26AD6, 0x01)
-            WriteInt(ARDEvent+0x26ADA, 0x00340002)
-            WriteInt(ARDEvent+0x26ADE, 0x00010000)
+            WriteArray(ARDEvent+0x26F26, {0x02, 0x00, 0x34, 0x00, 0x00, 0x00, 0x01, 0x00})
         end
 	end
+    if ReadShort(Now+0x00) == 0x040E and ReadByte(Now+0x08) == 0x3A then --Post Prison Keeper Cutscene (Boss/Enemy)
+        WriteArray(Now+0x01, {0x02, 0x34, 0x00, 0x03, 0x00, 0x00, 0x00, 0x16})
+        WriteShort(Save+0x0D, 0x3402)
+    end
     if ReadShort(Now+0x00) == 0x050E and ReadShort(Now+0x38) == 0x04 then --Before Oogie Boogie Cutscene 2
         if ReadShort(Now+0x040E) then
             WriteByte(Now+0x02, 0x32)
@@ -1710,10 +1723,6 @@ function _OnFrame()
             WriteByte(ARDEvent+0x93C6, 0x9A)
             WriteByte(ARDEvent+0x93C8, 0x01)
         end
-        if ReadByte(ARDEvent+0x9B5A) == 0x9C then --Boss/Enemy
-            WriteByte(ARDEvent+0x9B5A, 0x9A)
-            WriteByte(ARDEvent+0x9B5C, 0x01)
-        end
 	end
     if ReadShort(Now+0x00) == 0x0802 then --Station Plaza Cutscenes
         if ReadShort(CutLen) == 0x040E or ReadShort(CutLen) == 0x0E93 then
@@ -2337,26 +2346,26 @@ function _OnFrame()
         WriteByte(HBBGM+0x0200, 0x98) --Merlin's House
         WriteByte(HBBGM+0x0340, 0x98) --Restoration Site
         WriteByte(HBBGM+0x0380, 0x98) --Bailey (After Destruction)
-    elseif ReadByte(Save+0x1D2D) == 0x01 and ReadByte(HBBGM+0x0C80) == 0x98 then --Ansem's Study Music Fix (Chest Cosmetics)
-        WriteByte(HBBGM+0x0C80, 0x99) --Ansem's Study
-        WriteByte(HBBGM+0x0CC0, 0x99) --Postern
-        WriteByte(HBBGM+0x0D80, 0x99) --Borough
-        WriteByte(HBBGM+0x0DC0, 0x99) --Marketplace
-        WriteByte(HBBGM+0x0E00, 0x99) --Corridors
-        WriteByte(HBBGM+0x0E40, 0x99) --Heartless Manufactory
-        WriteByte(HBBGM+0x0E80, 0x99) --Merlin's House
-        WriteByte(HBBGM+0x0FC0, 0x99) --Restoration Site
-        WriteByte(HBBGM+0x1000, 0x99) --Bailey (After Destruction)
-    elseif ReadByte(Save+0x1D2D) == 0x00 and ReadByte(HBBGM+0x0C80) == 0x99 then --Post FF Fights Music Fix (Chest Cosmetics)
-        WriteByte(HBBGM+0x0C80, 0x98) --Ansem's Study
-        WriteByte(HBBGM+0x0CC0, 0x98) --Postern
-        WriteByte(HBBGM+0x0D80, 0x98) --Borough
-        WriteByte(HBBGM+0x0DC0, 0x98) --Marketplace
-        WriteByte(HBBGM+0x0E00, 0x98) --Corridors
-        WriteByte(HBBGM+0x0E40, 0x98) --Heartless Manufactory
-        WriteByte(HBBGM+0x0E80, 0x98) --Merlin's House
-        WriteByte(HBBGM+0x0FC0, 0x98) --Restoration Site
-        WriteByte(HBBGM+0x1000, 0x98) --Bailey (After Destruction)
+    elseif ReadByte(Save+0x1D2D) == 0x01 and ReadByte(HBBGM+0x0D80) == 0x98 then --Ansem's Study Music Fix (Chest Cosmetics)
+        WriteByte(HBBGM+0x0D80, 0x99) --Ansem's Study
+        WriteByte(HBBGM+0x0DC0, 0x99) --Postern
+        WriteByte(HBBGM+0x0E80, 0x99) --Borough
+        WriteByte(HBBGM+0x0EC0, 0x99) --Marketplace
+        WriteByte(HBBGM+0x0F00, 0x99) --Corridors
+        WriteByte(HBBGM+0x0F40, 0x99) --Heartless Manufactory
+        WriteByte(HBBGM+0x0F80, 0x99) --Merlin's House
+        WriteByte(HBBGM+0x10C0, 0x99) --Restoration Site
+        WriteByte(HBBGM+0x1100, 0x99) --Bailey (After Destruction)
+    elseif ReadByte(Save+0x1D2D) == 0x00 and ReadByte(HBBGM+0x0D80) == 0x99 then --Post FF Fights Music Fix (Chest Cosmetics)
+        WriteByte(HBBGM+0x0D80, 0x98) --Ansem's Study
+        WriteByte(HBBGM+0x0DC0, 0x98) --Postern
+        WriteByte(HBBGM+0x0E80, 0x98) --Borough
+        WriteByte(HBBGM+0x0EC0, 0x98) --Marketplace
+        WriteByte(HBBGM+0x0F00, 0x98) --Corridors
+        WriteByte(HBBGM+0x0F40, 0x98) --Heartless Manufactory
+        WriteByte(HBBGM+0x0F80, 0x98) --Merlin's House
+        WriteByte(HBBGM+0x10C0, 0x98) --Restoration Site
+        WriteByte(HBBGM+0x1100, 0x98) --Bailey (After Destruction)
 	end
     if ReadShort(Now+0x00) == 0x1304 and ReadShort(Now+0x30) == 0x0504 then --Corridors Fight
         if ReadByte(Now+0x08) == 0x3D then
@@ -3327,6 +3336,9 @@ function _OnFrame()
             WriteByte(Save+0x1D0E, 0x04)
         end
 	end
+    if ReadShort(Now+0x00) == 0x2002 and ReadByte(Now+0x08) == 0x9C then --Pre-SoS Dusks Cutscene (Boss/Enemy)
+        WriteArray(Now+0x04, {0x9A, 0x00, 0x9A, 0x00, 0x9A})
+    end
     if ReadShort(Now+0x00) == 0x2002 then --Post Station of Serenity Dusks Cutscenes
         if ReadShort(CutLen) == 0x015E or ReadShort(CutLen) == 0x02CA then
             WriteByte(CutSkp, 0x01)
